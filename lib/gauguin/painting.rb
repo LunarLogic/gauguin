@@ -2,10 +2,7 @@ require 'rmagick'
 
 module Gauguin
   class Painting
-    MAX_COLORS_COUNT = 10
-    CUT_OFF_LIMIT = 1000
     MAX_TRANSPARENCY = 65535
-    MIN_DIFF = 0.003
 
     def initialize(path)
       list = Magick::ImageList.new(path)
@@ -46,7 +43,9 @@ module Gauguin
     end
 
     def cut_off_index(percentage_array)
-      return CUT_OFF_LIMIT if percentage_array.count > CUT_OFF_LIMIT
+      if percentage_array.count > Gauguin.configuration.cut_off_limit
+        return Gauguin.configuration.cut_off_limit
+      end
 
       guard = Gauguin::Color.new(nil, nil, nil, 0)
       percentage_array_with_guard = [["guard", guard]] + percentage_array
@@ -56,7 +55,7 @@ module Gauguin
 
       diff_i = 0
       diffs.each.with_index do |diff, i|
-        if diff > MIN_DIFF
+        if diff > Gauguin.configuration.min_diff
           diff_i = i
           break
         end
@@ -79,7 +78,7 @@ module Gauguin
           end
         end
       end
-      Hash[groups.to_a[0..MAX_COLORS_COUNT-1]]
+      Hash[groups.to_a[0..Gauguin.configuration.max_colors_count-1]]
     end
 
     def pixel_to_rgb(pixel)
