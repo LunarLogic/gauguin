@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Gauguin::VERSION
   spec.authors       = ["Ania Slimak"]
   spec.email         = ["anna.slimak@lunarlogic.io"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Tool for retrieving main colors from the image.}
+  spec.description   = %q{Retrieves palette of main colors, merging similar colors using YUV space.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -18,6 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "rmagick"
+
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rspec"
+
+  spec.add_runtime_dependency "pry"
 end
