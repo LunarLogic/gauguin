@@ -1,5 +1,4 @@
 require "gauguin/version"
+require "gauguin/color"
+require "gauguin/painting"
 
-module Gauguin
-  # Your code goes here...
-end
