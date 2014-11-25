@@ -30,10 +30,11 @@ module Gauguin
 
       context "image has two colors but with different gradients, so actually 256 unique colors" do
         let(:file_name) { "black_and_white.png" }
+        let(:values) { subject.values.flatten }
 
         it { expect(subject.count).to eq 2 }
-        it { expect(subject.values.flatten.include?(Gauguin::Color.new(0, 0, 0))).to be true }
-        it { expect(subject.values.flatten.include?(Gauguin::Color.new(255, 255, 255))).to be true }
+        it { expect(values.include?(Gauguin::Color.new(0, 0, 0))).to be true }
+        it { expect(values.include?(Gauguin::Color.new(255, 255, 255))).to be true }
       end
 
       context "transparent black" do
@@ -49,10 +50,20 @@ module Gauguin
         it { expect(subject.count).to eq 10 }
       end
 
-      context "image with 12 colors" do
+      context "image with over than max_colors_count colors" do
         let(:file_name) { "12_colors.png" }
 
         it { expect(subject.count).to eq 10 }
+
+        context "image with over than cut_off_limit colors" do
+          before do
+            Gauguin.configuration.cut_off_limit = 9
+          end
+
+          it "returns last 3 items" do
+            expect(subject.count).to eq 3
+          end
+        end
       end
     end
   end

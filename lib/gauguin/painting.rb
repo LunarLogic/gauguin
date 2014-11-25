@@ -3,6 +3,7 @@ require 'rmagick'
 module Gauguin
   class Painting
     MAX_TRANSPARENCY = 65535
+    MAX_CHANNEL_VALUE = 257
 
     def initialize(path)
       list = Magick::ImageList.new(path)
@@ -28,6 +29,7 @@ module Gauguin
       histogram.to_a.each do |pixel, count|
         next unless count
         next if pixel.opacity >= MAX_TRANSPARENCY
+
         red, green, blue = pixel_to_rgb(pixel)
         percentage = count.to_f / image_size
         color = Gauguin::Color.new(red, green, blue, percentage)
@@ -83,7 +85,7 @@ module Gauguin
 
     def pixel_to_rgb(pixel)
       [:red, :green, :blue].map do |color|
-        pixel.send(color) / 257
+        pixel.send(color) / MAX_CHANNEL_VALUE
       end
     end
   end
