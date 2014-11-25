@@ -51,18 +51,12 @@ module Gauguin
 
       guard = Gauguin::Color.new(nil, nil, nil, 0)
       percentage_array_with_guard = [["guard", guard]] + percentage_array
-      diffs = percentage_array.map.with_index do |_, i|
-        percentage_array[i][1].percentage - percentage_array_with_guard[i][1].percentage
+      zipped = percentage_array.zip(percentage_array_with_guard)
+      diffs = zipped.map do |color, following_color|
+        color[1].percentage - following_color[1].percentage
       end.compact
 
-      diff_i = 0
-      diffs.each.with_index do |diff, i|
-        if diff > Gauguin.configuration.min_diff
-          diff_i = i
-          break
-        end
-      end
-      diff_i
+      diffs.index { |diff| diff > Gauguin.configuration.min_diff } || 0
     end
 
     def limited_groups(percentage_array)
@@ -72,7 +66,7 @@ module Gauguin
         groups[color.to_s] = [color]
 
         percentage_array.delete_if do |_, other_color|
-          if other_color == color
+          if other_color.similar?(color)
             groups[color.to_s] << other_color
             true
           else

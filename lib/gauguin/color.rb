@@ -6,18 +6,24 @@ module Gauguin
                         [-0.14713, -0.28886, 0.436],
                         [0.615, -0.51499, -0.10001]]
 
-    def ==(other_color)
+    def ==(other)
+      self.red == other.red && self.green == other.green &&
+        self.blue == other.blue
+    end
+
+    def similar?(other_color)
       self.distance(other_color) < Gauguin.configuration.color_similarity_threshold
     end
 
     def distance(other_color)
       vector = self.to_yuv.to_a.flatten
       other_vector = other_color.to_yuv.to_a.flatten
-      squares = vector.map.with_index do |_, i|
-        (other_vector[i] - vector[i]) ** 2
+
+      squares = vector.zip(other_vector).map do |coordinate, other_coordinate|
+        (other_coordinate - coordinate) ** 2
       end
-      sum = 0
-      squares.each { |o| sum += o }
+
+      sum = squares.reduce(:+)
       Math.sqrt(sum)
     end
 
