@@ -2,72 +2,41 @@ require 'spec_helper'
 
 module Gauguin
   describe Painting do
-    def picture_path(file_name)
-      File.join("spec", "support", "pictures", file_name)
+    let(:black) { Color.new(0, 0, 0, 0.2) }
+    let(:red) { Color.new(255, 0, 0, 0.1) }
+    let(:white) { Color.new(255, 255, 255, 0.3) }
+
+    let(:image_repository) do
+      double(get: double('image'))
     end
 
-    let(:painting) { Painting.new(picture_path(file_name)) }
+    let(:clusterer) do
+      double(
+        cluster: {
+          black => [black],
+          red => [red],
+          white => [white]
+        }
+      )
+    end
+    let(:colors) { [black, red, white] }
 
-    describe "#palette" do
-      shared_examples_for "retrieves unique colors" do
-        it { expect(subject.count).to eq 5 }
-        it do
-          expect(subject.keys).to include(Color.new(255, 255, 255))
-        end
+    let(:painting) do
+      Painting.new("path", image_repository, clusterer)
+    end
+
+    describe "#limited_clusters" do
+      subject { painting.limited_clusters(colors) }
+
+      before do
+        Gauguin.configuration.max_colors_count = 2
       end
 
-      subject { painting.palette }
-
-      context "unique colors in the picture" do
-        let(:file_name) { "unique_colors.png" }
-
-        it_behaves_like "retrieves unique colors"
-      end
-
-      context "not unique colors in the picture" do
-        let(:file_name) { "not_unique_colors.png" }
-
-        it_behaves_like "retrieves unique colors"
-      end
-
-      context "image has two colors but with different gradients, so actually 256 unique colors" do
-        let(:file_name) { "black_and_white.png" }
-        let(:values) { subject.values.flatten }
-
-        it { expect(subject.count).to eq 2 }
-        it { expect(values.include?(Gauguin::Color.new(0, 0, 0))).to be true }
-        it { expect(values.include?(Gauguin::Color.new(255, 255, 255))).to be true }
-      end
-
-      context "transparent black" do
-        let(:file_name) { "transparent_black.png" }
-
-        it { expect(subject.count).to eq 1 }
-        it do
-          expect(subject.keys).to eq [Color.new(0, 0, 0)]
-        end
-      end
-
-      context "image with 10 colors" do
-        let(:file_name) { "10_colors.png" }
-
-        it { expect(subject.count).to eq 10 }
-      end
-
-      context "image with over than max_colors_count colors" do
-        let(:file_name) { "12_colors.png" }
-
-        it { expect(subject.count).to eq 10 }
-
-        context "image with over than cut_off_limit colors" do
-          before do
-            Gauguin.configuration.cut_off_limit = 9
-          end
-
-          it "returns last 3 items" do
-            expect(subject.count).to eq 3
-          end
-        end
+      it "returns max_colors_count most common colors" do
+        expect(subject).to eq({
+          white => [white],
+          black => [black]
+        })
       end
     end
   end

@@ -2,10 +2,10 @@ require 'spec_helper'
 
 module Gauguin
   describe ColorsClusterer do
-    let(:clusterer) { ColorsClusterer.new(colors) }
+    let(:clusterer) { ColorsClusterer.new }
 
     describe "cluster" do
-      subject { clusterer.cluster }
+      subject { clusterer.cluster(colors) }
 
       context "colors is empty" do
         let(:colors) { [] }

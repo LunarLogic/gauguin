@@ -1,12 +1,7 @@
 module Gauguin
   class ColorsClusterer
-    def initialize(colors)
-      @colors = colors
-    end
-
-    def cluster
+    def cluster(colors)
       clusters = {}
-      colors = @colors.dup
       while !colors.empty?
         color = colors.shift
         clusters[color] = [color]

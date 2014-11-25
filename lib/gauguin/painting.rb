@@ -1,13 +1,12 @@
-require 'rmagick'
-
 module Gauguin
   class Painting
     MAX_TRANSPARENCY = 65535
     MAX_CHANNEL_VALUE = 257
 
-    def initialize(path)
-      list = Magick::ImageList.new(path)
-      @image = list.first
+    def initialize(path, image_repository = nil, clusterer = nil)
+      @image_repository = image_repository || Gauguin::ImageRepository.new
+      @image = @image_repository.get(path)
+      @clusterer = clusterer || Gauguin::ColorsClusterer.new
     end
 
     def palette
@@ -15,10 +14,9 @@ module Gauguin
       cut_off_index = cut_off_index(percentage)
       percentage = percentage[cut_off_index..-1]
 
-      limited_groups(percentage.map { |k,v| v })
+      # TODO: pass regular array
+      limited_clusters(percentage.map { |k,v| v })
     end
-
-    private
 
     def colors_percentage
       percentage_hash = {}
@@ -59,10 +57,10 @@ module Gauguin
       diffs.index { |diff| diff > Gauguin.configuration.min_diff } || 0
     end
 
-    def limited_groups(colors)
-      clusterer = Gauguin::ColorsClusterer.new(colors)
-      clusters = clusterer.cluster
-      Hash[clusters.to_a[0..Gauguin.configuration.max_colors_count-1]]
+    def limited_clusters(colors)
+      clusters = @clusterer.cluster(colors)
+      clusters = clusters.sort_by { |color, _| color.percentage }.reverse
+      Hash[clusters[0..Gauguin.configuration.max_colors_count-1]]
     end
 
     def pixel_to_rgb(pixel)

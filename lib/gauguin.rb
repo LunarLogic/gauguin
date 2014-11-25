@@ -2,6 +2,8 @@ require "gauguin/version"
 require "gauguin/color"
 require "gauguin/colors_clusterer"
 require "gauguin/painting"
+require "gauguin/image"
+require "gauguin/image_repository"
 
 module Gauguin
   class << self
