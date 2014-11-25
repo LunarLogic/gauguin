@@ -15,7 +15,7 @@ module Gauguin
       cut_off_index = cut_off_index(percentage)
       percentage = percentage[cut_off_index..-1]
 
-      limited_groups(percentage)
+      limited_groups(percentage.map { |k,v| v })
     end
 
     private
@@ -59,22 +59,10 @@ module Gauguin
       diffs.index { |diff| diff > Gauguin.configuration.min_diff } || 0
     end
 
-    def limited_groups(percentage_array)
-      groups = {}
-      while !percentage_array.empty?
-        _, color = percentage_array.shift
-        groups[color.to_s] = [color]
-
-        percentage_array.delete_if do |_, other_color|
-          if other_color.similar?(color)
-            groups[color.to_s] << other_color
-            true
-          else
-            false
-          end
-        end
-      end
-      Hash[groups.to_a[0..Gauguin.configuration.max_colors_count-1]]
+    def limited_groups(colors)
+      clusterer = Gauguin::ColorsClusterer.new(colors)
+      clusters = clusterer.cluster
+      Hash[clusters.to_a[0..Gauguin.configuration.max_colors_count-1]]
     end
 
     def pixel_to_rgb(pixel)

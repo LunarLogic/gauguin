@@ -1,5 +1,6 @@
 require "gauguin/version"
 require "gauguin/color"
+require "gauguin/colors_clusterer"
 require "gauguin/painting"
 
 module Gauguin

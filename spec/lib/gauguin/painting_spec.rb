@@ -11,7 +11,9 @@ module Gauguin
     describe "#palette" do
       shared_examples_for "retrieves unique colors" do
         it { expect(subject.count).to eq 5 }
-        it { expect(subject.keys).to include("rgb(255, 255, 255)") }
+        it do
+          expect(subject.keys).to include(Color.new(255, 255, 255))
+        end
       end
 
       subject { painting.palette }
@@ -41,7 +43,9 @@ module Gauguin
         let(:file_name) { "transparent_black.png" }
 
         it { expect(subject.count).to eq 1 }
-        it { expect(subject.keys).to eq ["rgb(0, 0, 0)"] }
+        it do
+          expect(subject.keys).to eq [Color.new(0, 0, 0)]
+        end
       end
 
       context "image with 10 colors" do
