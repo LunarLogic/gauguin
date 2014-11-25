@@ -16,6 +16,18 @@ It's common that images includes very similar colors, so when you want to get us
 
 This gem was created to do this for you.
 
+## Requirements
+
+Gem depends on `RMagick` which requires `ImageMagick` to be installed.
+
+### Ubuntu
+
+    $ sudo apt-get install imagemagick
+
+### OSX
+
+    $ brew install imagemagick
+
 ## Installation
 
 Add this line to your application's Gemfile:
