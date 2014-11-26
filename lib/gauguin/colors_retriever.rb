@@ -1,7 +1,5 @@
 module Gauguin
   class ColorsRetriever
-    MAX_TRANSPARENCY = 65535
-
     def initialize(image)
       @image = image
     end
@@ -13,9 +11,10 @@ module Gauguin
       image_size = @image.columns * @image.rows
 
       histogram.each do |pixel, count|
-        next if pixel.opacity >= MAX_TRANSPARENCY
+        image_pixel = @image.pixel(pixel)
+        next if image_pixel.transparent?
 
-        red, green, blue = @image.pixel_to_rgb(pixel)
+        red, green, blue = image_pixel.to_rgb
         percentage = count.to_f / image_size
         color = Gauguin::Color.new(red, green, blue, percentage)
         colors << color

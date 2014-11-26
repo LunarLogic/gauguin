@@ -4,6 +4,7 @@ require 'forwardable'
 module Gauguin
   class Image
     MAX_CHANNEL_VALUE = 257
+    MAX_TRANSPARENCY = 65535
 
     extend Forwardable
     attr_accessor :image
@@ -14,9 +15,23 @@ module Gauguin
       self.image = list.first
     end
 
-    def pixel_to_rgb(pixel)
-      [:red, :green, :blue].map do |color|
-        pixel.send(color) / MAX_CHANNEL_VALUE
+    def pixel(magic_pixel)
+      Pixel.new(magic_pixel)
+    end
+
+    class Pixel
+      def initialize(magic_pixel)
+        @magic_pixel = magic_pixel
+      end
+
+      def transparent?
+        @magic_pixel.opacity >= MAX_TRANSPARENCY
+      end
+
+      def to_rgb
+        [:red, :green, :blue].map do |color|
+          @magic_pixel.send(color) / MAX_CHANNEL_VALUE
+        end
       end
     end
   end

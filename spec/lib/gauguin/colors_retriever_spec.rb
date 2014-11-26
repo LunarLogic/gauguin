@@ -4,31 +4,60 @@ module Gauguin
   describe ColorsRetriever do
     let(:retriever) { ColorsRetriever.new(image) }
     let(:image) do
-      double(
-        color_histogram: histogram,
-        columns: 10,
-        rows: 10
-      )
+      FakeImage.new(magic_black_pixel, magic_white_pixel, magic_red_pixel)
     end
-    let(:histogram) do
-      {
-        white_pixel => 20,
-        black_pixel => 30,
-        red_pixel => 10
-      }
-    end
+    let(:magic_black_pixel) { [0, 0, 0] }
+    let(:magic_white_pixel) { [255, 255, 255] }
+    let(:magic_red_pixel) { [255, 0, 0] }
 
-    let(:white_pixel) { [255, 255, 255] }
-    let(:red_pixel) { [255, 0, 0] }
-    let(:black_pixel) { [0, 0, 0] }
 
-    before do
-      [white_pixel, black_pixel, red_pixel].each do |pixel|
-        allow(pixel).to receive(:opacity).
-          and_return(0)
+    class FakeImage
+      attr_accessor :pixels_repository
 
-        allow(image).to receive(:pixel_to_rgb).
-          with(pixel).and_return(pixel)
+      def initialize(magic_black_pixel, magic_white_pixel, magic_red_pixel)
+        @magic_black_pixel = magic_black_pixel
+        @magic_white_pixel = magic_white_pixel
+        @magic_red_pixel = magic_red_pixel
+
+        @pixels_repository = {
+          magic_white_pixel => Pixel.new(magic_white_pixel),
+          magic_red_pixel => Pixel.new(magic_red_pixel),
+          magic_black_pixel => Pixel.new(magic_black_pixel)
+        }
+      end
+
+      def color_histogram
+        {
+          @magic_white_pixel => 20,
+          @magic_black_pixel => 30,
+          @magic_red_pixel => 10
+        }
+      end
+
+      def columns
+        10
+      end
+
+      def rows
+        10
+      end
+
+      def pixel(magic_pixel)
+        @pixels_repository[magic_pixel]
+      end
+
+      class Pixel
+        def initialize(magic_pixel)
+          @magic_pixel = magic_pixel
+        end
+
+        def to_rgb
+          @magic_pixel
+        end
+
+        def transparent?
+          false
+        end
       end
     end
 
@@ -45,8 +74,8 @@ module Gauguin
 
       context "transparent color" do
         before do
-          expect(white_pixel).to receive(:opacity).
-            and_return(ColorsRetriever::MAX_TRANSPARENCY)
+          white_pixel = image.pixels_repository[magic_white_pixel]
+          expect(white_pixel).to receive(:transparent?).and_return(true)
         end
 
         it "returns colors without white" do
