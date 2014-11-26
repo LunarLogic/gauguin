@@ -40,5 +40,11 @@ module Gauguin
         expect(black.distance(red)).to be_within(0.01).of(178.36)
       end
     end
+
+    describe "#to_s" do
+      subject { black.to_s }
+
+      it { expect(subject).to eq("rgb(0, 0, 0)") }
+    end
   end
 end
