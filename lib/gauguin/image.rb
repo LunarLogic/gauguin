@@ -3,9 +3,6 @@ require 'forwardable'
 
 module Gauguin
   class Image
-    MAX_CHANNEL_VALUE = 257
-    MAX_TRANSPARENCY = 65535
-
     extend Forwardable
     attr_accessor :image
     delegate [:color_histogram, :columns, :rows] => :image
@@ -20,6 +17,9 @@ module Gauguin
     end
 
     class Pixel
+      MAX_CHANNEL_VALUE = 257
+      MAX_TRANSPARENCY = 65535
+
       def initialize(magic_pixel)
         @magic_pixel = magic_pixel
       end
