@@ -17,7 +17,7 @@ module Gauguin
     def limited_clusters(colors)
       clusters = @clusterer.cluster(colors)
       clusters = clusters.sort_by { |color, _| color.percentage }.reverse
-      Hash[clusters[0..Gauguin.configuration.max_colors_count-1]]
+      Hash[clusters[0...Gauguin.configuration.max_colors_count]]
     end
   end
 end
