@@ -28,9 +28,7 @@ module Gauguin
     describe "#limited_clusters" do
       subject { painting.limited_clusters(colors) }
 
-      before do
-        Gauguin.configuration.max_colors_count = 2
-      end
+      configure(:max_colors_count, 2)
 
       it "returns max_colors_count most common colors" do
         expect(subject).to eq({

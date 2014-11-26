@@ -33,7 +33,7 @@ module Gauguin
     end
 
     describe "#colors" do
-      subject { retriever.colors }
+      subject { retriever.colors.sort_by(&:percentage) }
 
       it "returns array with colors with percentages ordered by percentage" do
         expect(subject).to eq([

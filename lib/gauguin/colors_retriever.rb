@@ -21,7 +21,7 @@ module Gauguin
         colors << color
       end
 
-      colors.sort_by(&:percentage)
+      colors
     end
   end
 end
