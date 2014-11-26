@@ -1,6 +1,7 @@
 require "gauguin/version"
 require "gauguin/color"
 require "gauguin/colors_clusterer"
+require "gauguin/colors_retriever"
 require "gauguin/painting"
 require "gauguin/image"
 require "gauguin/image_repository"
