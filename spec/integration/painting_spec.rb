@@ -6,13 +6,17 @@ module Gauguin
       File.join("spec", "support", "pictures", file_name)
     end
 
+    let(:gray) { Color.new(204, 204, 204) }
+    let(:black) { Color.new(0, 0, 0) }
+    let(:white) { Color.new(255, 255, 255) }
+
     let(:painting) { Painting.new(path) }
 
     describe "#palette" do
       shared_examples_for "retrieves unique colors" do
         it { expect(subject.count).to eq 5 }
         it do
-          expect(subject.keys).to include(Color.new(255, 255, 255))
+          expect(subject.keys).to include(white)
         end
       end
 
@@ -31,12 +35,12 @@ module Gauguin
       end
 
       context "image has two colors but with different gradients, so actually 256 unique colors" do
-        let(:file_name) { "black_and_white.png" }
+        let(:file_name) { "gray_and_black.png" }
         let(:values) { subject.values.flatten }
 
         it { expect(subject.count).to eq 2 }
-        it { expect(values.include?(Gauguin::Color.new(0, 0, 0))).to be true }
-        it { expect(values.include?(Gauguin::Color.new(255, 255, 255))).to be true }
+        it { expect(values.include?(black)).to be true }
+        it { expect(values.include?(gray)).to be true }
       end
 
       context "transparent black" do

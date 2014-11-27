@@ -3,7 +3,7 @@ require 'spec_helper'
 module Gauguin
   describe Image do
     let(:path) do
-      File.join("spec", "support", "pictures", "black_and_white.png")
+      File.join("spec", "support", "pictures", "gray_and_black.png")
     end
 
     let(:image) { Image.new(path) }
