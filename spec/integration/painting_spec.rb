@@ -34,7 +34,8 @@ module Gauguin
         it_behaves_like "retrieves unique colors"
       end
 
-      context "image has two colors but with different gradients, so actually 256 unique colors" do
+      context "image has two colors but with different gradients
+        so actually 1942 unique colors" do
         let(:file_name) { "gray_and_black.png" }
         let(:values) { subject.values.flatten }
 
