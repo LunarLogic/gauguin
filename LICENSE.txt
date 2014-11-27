@@ -1,4 +1,4 @@
-Copyright (c) 2014 Ania Slimak
+Copyright (c) 2014 Lunar Logic Polska http://lunarlogicpolska.com
 
 MIT License
 
