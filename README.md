@@ -6,9 +6,9 @@ Retrieves palette of main colors, merging similar colors using [YUV space](http:
 
 How many colors do you recognize on the image below?
 
-![Black and white image](spec/support/pictures/black_and_white.png)
+![Black and white image](spec/support/pictures/gray_and_black.png)
 
-Many people would say `2`, but actually there are `256`.
+Many people would say `2`, but actually there are `1942`.
 
 It's because of the fact that to make image more smooth, borders of the figure are not pure black but consist of many gray scale colors.
 
