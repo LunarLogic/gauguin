@@ -9,6 +9,14 @@ module Gauguin
         clusters[color] += similar_colors
         colors -= similar_colors
       end
+
+      clusters.each do |main_color, group|
+        percentage = group.inject(0) do |sum, color|
+          sum += color.percentage
+        end
+        main_color.percentage = percentage
+      end
+
       clusters
     end
   end
