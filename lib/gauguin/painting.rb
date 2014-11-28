@@ -1,23 +1,18 @@
 module Gauguin
   class Painting
-    def initialize(path, image_repository = nil, reducer = nil, retriever = nil, clusterer = nil)
+    def initialize(path, image_repository = nil, colors_retriever = nil,
+                   noise_reducer = nil, colors_clusterer = nil)
       @image_repository = image_repository || Gauguin::ImageRepository.new
       @image = @image_repository.get(path)
-      @retiever = retriever || Gauguin::ColorsRetriever.new(@image)
-      @reducer = reducer || Gauguin::NoiseReducer.new
-      @clusterer = clusterer || Gauguin::ColorsClusterer.new
+      @colors_retriever = colors_retriever || Gauguin::ColorsRetriever.new(@image)
+      @noise_reducer = noise_reducer || Gauguin::NoiseReducer.new
+      @colors_clusterer = colors_clusterer || Gauguin::ColorsClusterer.new
     end
 
     def palette
-      colors = @retiever.colors
-      colors = @reducer.reduce(colors)
-      limited_clusters(colors)
-    end
-
-    def limited_clusters(colors)
-      clusters = @clusterer.cluster(colors)
-      clusters = clusters.sort_by { |color, _| color.percentage }.reverse
-      Hash[clusters[0...Gauguin.configuration.max_colors_count]]
+      colors = @colors_retriever.colors
+      colors = @noise_reducer.reduce(colors)
+      @colors_clusterer.limited_clusters(colors)
     end
   end
 end

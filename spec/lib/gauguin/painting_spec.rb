@@ -2,39 +2,30 @@ require 'spec_helper'
 
 module Gauguin
   describe Painting do
-    let(:black) { Color.new(0, 0, 0, 0.2) }
-    let(:red) { Color.new(255, 0, 0, 0.1) }
-    let(:white) { Color.new(255, 255, 255, 0.3) }
+    let(:colors) { [] }
 
-    let(:image_repository) do
-      double(get: double('image'))
-    end
+    let(:image_repository) { double(get: double('image')) }
+    let(:colors_retriever) { double }
+    let(:noise_reducer) { double }
+    let(:colors_clusterer) { double }
 
-    let(:clusterer) do
-      double(
-        cluster: {
-          black => [black],
-          red => [red],
-          white => [white]
-        }
-      )
-    end
-    let(:colors) { [black, red, white] }
+    let(:clusters) { {} }
 
     let(:painting) do
-      Painting.new("path", image_repository, clusterer)
+      Painting.new("path", image_repository, colors_retriever,
+                   noise_reducer, colors_clusterer)
     end
 
-    describe "#limited_clusters" do
-      subject { painting.limited_clusters(colors) }
+    describe "#palette" do
+      it "uses ColorsRetriever, NoiseReducer and ColorsClusterer" do
+        expect(colors_retriever).to receive(:colors).
+          and_return(colors)
+        expect(noise_reducer).to receive(:reduce).with(colors).
+          and_return(colors)
+        expect(colors_clusterer).to receive(:limited_clusters).with(colors).
+          and_return(clusters)
 
-      configure(:max_colors_count, 2)
-
-      it "returns max_colors_count most common colors" do
-        expect(subject).to eq({
-          white => [white],
-          black => [black]
-        })
+        painting.palette
       end
     end
   end
