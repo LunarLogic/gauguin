@@ -1,5 +1,6 @@
 require "gauguin/version"
 require "gauguin/color"
+require "gauguin/color_space"
 require "gauguin/colors_clusterer"
 require "gauguin/colors_retriever"
 require "gauguin/noise_reducer"
@@ -19,9 +20,9 @@ module Gauguin
 
   class Configuration
     DEFAULT_MAX_COLORS_COUNT = 10
-    DEFAULT_CUT_OFF_LIMIT = 1000
-    DEFAULT_MIN_DIFF = 0.003
-    DEFAULT_COLOR_SIMILARITY_THRESHOLD = 50
+    DEFAULT_CUT_OFF_LIMIT = 10000
+    DEFAULT_MIN_DIFF = 0.004
+    DEFAULT_COLOR_SIMILARITY_THRESHOLD = 30
 
     attr_accessor :max_colors_count, :cut_off_limit,
       :min_diff, :color_similarity_threshold

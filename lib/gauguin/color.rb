@@ -1,5 +1,3 @@
-require 'matrix'
-
 module Gauguin
   class Color
     attr_accessor :red, :green, :blue, :percentage
@@ -11,12 +9,8 @@ module Gauguin
       self.percentage = percentage
     end
 
-    YUV_MATRIX = Matrix[[0.299, 0.587, 0.114],
-                        [-0.14713, -0.28886, 0.436],
-                        [0.615, -0.51499, -0.10001]]
-
     def ==(other)
-      self.vector == other.vector
+      self.to_a == other.to_a
     end
 
     def similar?(other_color)
@@ -24,19 +18,25 @@ module Gauguin
     end
 
     def distance(other_color)
-      (self.to_yuv - other_color.to_yuv).r
+      (self.to_lab - other_color.to_lab).r
     end
 
-    def to_yuv
-      YUV_MATRIX * vector
+    def to_lab
+      rgb_vector = ColorSpace::RgbVector[*to_a]
+      xyz_vector = rgb_vector.to_xyz
+      xyz_vector.to_lab
     end
 
-    def vector
-      Vector[self.red, self.green, self.blue]
+    def to_a
+      [self.red, self.green, self.blue]
     end
 
     def to_s
       "rgb(#{self.red}, #{self.green}, #{self.blue})"
+    end
+
+    def inspect
+      "#{to_s}[#{percentage}]"
     end
   end
 end
