@@ -11,8 +11,8 @@ module Gauguin
 
     def palette
       colors = @colors_retriever.colors
-      colors = @noise_reducer.reduce(colors)
-      @colors_clusterer.limited_clusters(colors)
+      colors_clusters = @colors_clusterer.limited_clusters(colors)
+      @noise_reducer.reduce(colors_clusters)
     end
   end
 end

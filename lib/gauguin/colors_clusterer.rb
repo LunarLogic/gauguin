@@ -3,11 +3,20 @@ module Gauguin
     def cluster(colors)
       clusters = {}
       while !colors.empty?
-        color = colors.shift
-        clusters[color] = [color]
-        similar_colors = colors.select { |c| c.similar?(color) }
-        clusters[color] += similar_colors
-        colors -= similar_colors
+        pivot = colors.shift
+        group = [pivot]
+
+        while true
+          similar_colors = colors.select { |c| c.similar?(pivot) }
+          break if similar_colors.empty?
+
+          group += similar_colors
+          colors -= similar_colors
+
+          pivot = group.sort_by(&:percentage).last
+        end
+
+        clusters[pivot] = group
       end
 
       clusters.each do |main_color, group|

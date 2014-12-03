@@ -44,12 +44,12 @@ module Gauguin
         it { expect(values.include?(gray)).to be true }
       end
 
-      context "transparent black" do
-        let(:file_name) { "transparent_black.png" }
+      context "transparent background" do
+        let(:file_name) { "transparent_background.png" }
 
         it { expect(subject.count).to eq 1 }
         it do
-          expect(subject.keys).to eq [Color.new(0, 0, 0)]
+          expect(subject.keys).to eq [Color.new(2, 0, 0)]
         end
       end
 
@@ -66,6 +66,7 @@ module Gauguin
 
         context "image with over than cut_off_limit colors" do
           configure(:cut_off_limit, 9)
+          configure(:max_colors_count, 12)
 
           it "returns last 3 items" do
             expect(subject.count).to eq 3

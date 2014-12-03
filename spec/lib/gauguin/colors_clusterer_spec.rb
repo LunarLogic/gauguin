@@ -22,18 +22,15 @@ module Gauguin
         let(:another_pseudo_black) { Color.new(6, 0, 0, 0.001) }
 
         let(:colors) do
-          [black, white, pseudo_black, other_pseudo_black, another_pseudo_black]
-        end
-
-        before do
-          expect(white).to receive(:similar?).
-            with(black).and_return(false)
+          [black, white, pseudo_black, other_pseudo_black,
+           another_pseudo_black]
         end
 
         it "make separate groups for them" do
           expect(subject).to eq({
             white => [white],
-            black => [black, pseudo_black, other_pseudo_black, another_pseudo_black]
+            black => [black, pseudo_black, other_pseudo_black,
+                      another_pseudo_black]
           })
         end
 
@@ -41,6 +38,39 @@ module Gauguin
           subject
           expect(white.percentage).to eq(0.4)
           expect(black.percentage).to eq(0.6)
+        end
+
+        context "there is color with bigger percentage
+                  than pivot in the group" do
+          before do
+            black.percentage = 0.001
+            other_pseudo_black.percentage = 0.597
+          end
+
+          it "chooses it as pivot" do
+            expect(subject).to eq({
+              white => [white],
+              other_pseudo_black => [black, pseudo_black,
+                                     other_pseudo_black,
+                                     another_pseudo_black]
+            })
+          end
+
+          context "pivots are similar" do
+            before do
+              other_pseudo_black.red = 30
+              another_pseudo_black.red = 60
+            end
+
+            it "merge their groups" do
+              expect(subject).to eq({
+                white => [white],
+                other_pseudo_black => [black, pseudo_black,
+                                      other_pseudo_black,
+                                      another_pseudo_black]
+              })
+            end
+          end
         end
       end
 
