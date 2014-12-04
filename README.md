@@ -47,24 +47,28 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-Gauguin::Painting.new("path/to/image.png")
+Gauguin::Painting.new("path/to/image.png").palette
 ```
 
 Result for image above would be:
 
 ```ruby
-{
-  "rgb(4, 4, 4)" => [
-    #<struct Gauguin::Color red=4, green=4, blue=4, percentage=0.0123291015625>,
-    #<struct Gauguin::Color red=0, green=0, blue=0, percentage=0.0135498046875>,
-    #<struct Gauguin::Color red=2, green=2, blue=2, percentage=0.013641357421875>,
-    #<struct Gauguin::Color red=3, green=3, blue=3, percentage=0.1777496337890625>
-  ],
-  "rgb(254, 254, 254)" => [
-    #<struct Gauguin::Color red=254, green=254, blue=254, percentage=0.013641357421875>,
-    #<struct Gauguin::Color red=255, green=255, blue=255, percentage=0.6972198486328125>
-  ]
-}
+  {
+    rgb(204, 204, 204)[0.5900935269505287] => [
+      rgb(77, 77, 77)[7.383706620723603e-05],
+      rgb(85, 85, 85)[0.00012306177701206005],
+      # ...
+      rgb(219, 220, 219)[1.2306177701206005e-05],
+      rgb(220, 220, 220)[7.383706620723603e-05]
+    ],
+    rgb(0, 0, 0)[0.40990647304947003] => [
+      rgb(0, 0, 0)[0.40990647304947003],
+      rgb(1, 1, 1)[0.007912872261875462],
+      # ...
+      rgb(64, 64, 64)[6.153088850603002e-05],
+      rgb(66, 66, 66)[6.153088850603002e-05]
+    ]
+  }
 ```
 
 ## Custom configuration
