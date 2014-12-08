@@ -64,12 +64,12 @@ module Gauguin
 
         it { expect(subject.count).to eq 10 }
 
-        context "image with over than cut_off_limit colors" do
-          configure(:cut_off_limit, 9)
+        context "image with over than colors_limit colors" do
+          configure(:colors_limit, 9)
           configure(:max_colors_count, 12)
 
-          it "returns last 3 items" do
-            expect(subject.count).to eq 3
+          it "returns colors_limit colors" do
+            expect(subject.count).to eq 9
           end
         end
       end

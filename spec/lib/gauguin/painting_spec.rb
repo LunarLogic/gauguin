@@ -6,6 +6,7 @@ module Gauguin
 
     let(:image_repository) { double(get: double('image')) }
     let(:colors_retriever) { double }
+    let(:colors_limiter) { double }
     let(:noise_reducer) { double }
     let(:colors_clusterer) { double }
 
@@ -13,12 +14,14 @@ module Gauguin
 
     let(:painting) do
       Painting.new("path", image_repository, colors_retriever,
-                   noise_reducer, colors_clusterer)
+                   colors_limiter, noise_reducer, colors_clusterer)
     end
 
     describe "#palette" do
       it "uses ColorsRetriever, NoiseReducer and ColorsClusterer" do
         expect(colors_retriever).to receive(:colors).
+          and_return(colors)
+        expect(colors_limiter).to receive(:limit).with(colors).
           and_return(colors)
         expect(colors_clusterer).to receive(:limited_clusters).with(colors).
           and_return(clusters)

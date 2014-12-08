@@ -1,20 +1,30 @@
 module Gauguin
   class Color
-    attr_accessor :red, :green, :blue, :percentage
+    attr_accessor :red, :green, :blue, :percentage, :transparent
 
-    def initialize(red, green, blue, percentage = 1)
+    def initialize(red, green, blue, percentage = 1, transparent = false)
       self.red = red
       self.green = green
       self.blue = blue
       self.percentage = percentage
+      self.transparent = transparent
     end
 
     def ==(other)
-      self.to_a == other.to_a
+      self.to_key == other.to_key
+    end
+
+    def eql?(other)
+      self.to_key.eql?(other.to_key)
+    end
+
+    def hash
+      self.to_key.hash
     end
 
     def similar?(other_color)
-      self.distance(other_color) < Gauguin.configuration.color_similarity_threshold
+      self.transparent == other_color.transparent &&
+        self.distance(other_color) < Gauguin.configuration.color_similarity_threshold
     end
 
     def distance(other_color)
@@ -22,13 +32,21 @@ module Gauguin
     end
 
     def to_lab
-      rgb_vector = ColorSpace::RgbVector[*to_a]
+      rgb_vector = self.to_vector
       xyz_vector = rgb_vector.to_xyz
       xyz_vector.to_lab
     end
 
+    def to_vector
+      ColorSpace::RgbVector[*to_a]
+    end
+
     def to_a
       [self.red, self.green, self.blue]
+    end
+
+    def to_key
+      to_a + [self.transparent]
     end
 
     def to_s
@@ -36,7 +54,15 @@ module Gauguin
     end
 
     def inspect
-      "#{to_s}[#{percentage}]"
+      msg = "#{to_s}[#{percentage}]"
+      if transparent?
+        msg += "[transparent]"
+      end
+      msg
+    end
+
+    def transparent?
+      self.transparent
     end
   end
 end

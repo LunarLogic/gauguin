@@ -1,8 +1,9 @@
 require "gauguin/version"
 require "gauguin/color"
 require "gauguin/color_space"
-require "gauguin/colors_clusterer"
 require "gauguin/colors_retriever"
+require "gauguin/colors_limiter"
+require "gauguin/colors_clusterer"
 require "gauguin/noise_reducer"
 require "gauguin/painting"
 require "gauguin/image"
@@ -20,17 +21,17 @@ module Gauguin
 
   class Configuration
     DEFAULT_MAX_COLORS_COUNT = 10
-    DEFAULT_CUT_OFF_LIMIT = 10000
-    DEFAULT_MIN_DIFF = 0.004
-    DEFAULT_COLOR_SIMILARITY_THRESHOLD = 30
+    DEFAULT_COLORS_LIMIT = 10000
+    DEFAULT_MIN_PERCENTAGE_SUM = 0.981
+    DEFAULT_COLOR_SIMILARITY_THRESHOLD = 25
 
-    attr_accessor :max_colors_count, :cut_off_limit,
-      :min_diff, :color_similarity_threshold
+    attr_accessor :max_colors_count, :colors_limit,
+      :min_percentage_sum, :color_similarity_threshold
 
     def initialize
       @max_colors_count = DEFAULT_MAX_COLORS_COUNT
-      @cut_off_limit = DEFAULT_CUT_OFF_LIMIT
-      @min_diff = DEFAULT_MIN_DIFF
+      @colors_limit = DEFAULT_COLORS_LIMIT
+      @min_percentage_sum = DEFAULT_MIN_PERCENTAGE_SUM
       @color_similarity_threshold = DEFAULT_COLOR_SIMILARITY_THRESHOLD
     end
   end

@@ -77,20 +77,6 @@ module Gauguin
         ])
       end
 
-      context "transparent color" do
-        before do
-          white_pixel = image.pixels_repository[magic_white_pixel]
-          expect(white_pixel).to receive(:transparent?).and_return(true)
-        end
-
-        it "returns colors without white" do
-          expect(subject).to eq([
-            Color.new(255, 0, 0, 0.1),
-            Color.new(0, 0, 0, 0.3)
-          ])
-        end
-      end
-
       context "histogram contains different magic pixels
         for the same color with different opacity" do
         before do
