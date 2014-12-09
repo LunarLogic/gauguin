@@ -5,7 +5,7 @@ module Gauguin
   class Image
     extend Forwardable
     attr_accessor :image
-    delegate [:color_histogram, :columns, :rows] => :image
+    delegate [:color_histogram, :columns, :rows, :write] => :image
 
     def initialize(path)
       list = Magick::ImageList.new(path)
@@ -14,6 +14,11 @@ module Gauguin
 
     def pixel(magic_pixel)
       Pixel.new(magic_pixel)
+    end
+
+    def pixel_color(row, column, *args)
+      magic_pixel = self.image.pixel_color(row, column, *args)
+      pixel(magic_pixel)
     end
 
     class Pixel

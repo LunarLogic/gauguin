@@ -16,6 +16,14 @@ module Gauguin
       end
     end
 
+    describe "#pixel_color" do
+      subject { image.pixel_color(0, 0) }
+
+      it "returns Image::Pixel for given row and column" do
+        expect(subject.to_rgb).to eq([204, 204, 204])
+      end
+    end
+
     describe Image::Pixel do
       let(:pixel) { Image::Pixel.new(magic_pixel) }
 

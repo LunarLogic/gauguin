@@ -4,8 +4,31 @@ module Gauguin
   describe ColorsRetriever do
     let(:retriever) { ColorsRetriever.new(image) }
     let(:image) do
-      FakeImage.new([magic_black_pixel, magic_white_pixel, magic_red_pixel,
-                     magic_red_little_transparent_pixel])
+      fake = FakeImage.new
+
+      fake.magic_black_pixel = magic_black_pixel
+      fake.magic_white_pixel = magic_white_pixel
+      fake.magic_red_pixel = magic_red_pixel
+      fake.magic_red_little_transparent_pixel = magic_red_little_transparent_pixel
+
+      fake.pixels_repository = {
+        magic_white_pixel => FakeImage::Pixel.new(magic_white_pixel),
+        magic_red_pixel => FakeImage::Pixel.new(magic_red_pixel),
+        magic_black_pixel => FakeImage::Pixel.new(magic_black_pixel),
+        magic_red_little_transparent_pixel => FakeImage::Pixel.new(
+          magic_red_little_transparent_pixel)
+      }
+
+      fake.color_histogram = {
+        magic_white_pixel => 20,
+        magic_black_pixel => 30,
+        magic_red_pixel => 10
+      }
+
+      fake.rows = 10
+      fake.columns = 10
+
+      fake
     end
 
     def magic_pixel(rgb, opacity)
@@ -16,55 +39,6 @@ module Gauguin
     let(:magic_white_pixel) { magic_pixel([255, 255, 255], 0) }
     let(:magic_red_pixel) { magic_pixel([255, 0, 0], 0) }
     let(:magic_red_little_transparent_pixel) { magic_pixel([255, 0, 0], 50) }
-
-
-    class FakeImage
-      attr_accessor :magic_black_pixel, :magic_red_pixel,
-        :magic_white_pixel, :magic_red_little_transparent_pixel,
-        :pixels_repository, :color_histogram, :rows, :columns
-
-      def initialize(magic_pixels)
-        self.magic_black_pixel, self.magic_white_pixel,
-          self.magic_red_pixel, self.magic_red_little_transparent_pixel = magic_pixels
-
-        self.pixels_repository = {
-          magic_white_pixel => Pixel.new(magic_white_pixel),
-          magic_red_pixel => Pixel.new(magic_red_pixel),
-          magic_black_pixel => Pixel.new(magic_black_pixel),
-          magic_red_little_transparent_pixel => Pixel.new(
-            magic_red_little_transparent_pixel)
-        }
-
-        self.color_histogram = {
-          magic_white_pixel => 20,
-          magic_black_pixel => 30,
-          magic_red_pixel => 10
-        }
-
-        self.rows = 10
-        self.columns = 10
-      end
-
-      def pixel(magic_pixel)
-        pixels_repository[magic_pixel]
-      end
-
-      class Pixel
-        attr_accessor :magic_pixel
-
-        def initialize(magic_pixel)
-          self.magic_pixel = magic_pixel
-        end
-
-        def to_rgb
-          magic_pixel.rgb
-        end
-
-        def transparent?
-          false
-        end
-      end
-    end
 
     describe "#colors" do
       subject { retriever.colors.sort_by(&:percentage) }

@@ -93,11 +93,11 @@ module Gauguin
       end
     end
 
-    describe "#limited_clusters" do
+    describe "#clusters" do
       let(:red) { Color.new(255, 0, 0, 0.1) }
       let(:colors) { [black, red, white] }
 
-      subject { clusterer.limited_clusters(colors) }
+      subject { clusterer.clusters(colors) }
 
       configure(:max_colors_count, 2)
 
@@ -113,6 +113,26 @@ module Gauguin
         expect(subject).to eq({
           white => [white],
           black => [black]
+        })
+      end
+    end
+
+    describe "#reversed_clusters" do
+      let(:gray) { Color.new(0, 0, 10, 0.4) }
+      let(:clusters) do
+        {
+          white => [white],
+          black => [black, gray]
+        }
+      end
+
+      subject { clusterer.reversed_clusters(clusters) }
+
+      it "returns reversed clusters" do
+        expect(subject).to eq({
+          white => white,
+          black => black,
+          gray => black
         })
       end
     end

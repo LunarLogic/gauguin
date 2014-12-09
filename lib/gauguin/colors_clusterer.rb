@@ -29,10 +29,22 @@ module Gauguin
       clusters
     end
 
-    def limited_clusters(colors)
+    def clusters(colors)
       clusters = self.cluster(colors)
       clusters = clusters.sort_by { |color, _| color.percentage }.reverse
       Hash[clusters[0...Gauguin.configuration.max_colors_count]]
+    end
+
+    def reversed_clusters(clusters)
+      reversed_clusters = {}
+
+      clusters.each do |pivot, group|
+        group.each do |color|
+          reversed_clusters[color] = pivot
+        end
+      end
+
+      reversed_clusters
     end
   end
 end
