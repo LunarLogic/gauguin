@@ -20,8 +20,16 @@ module Gauguin
     end
 
     describe "#==" do
-      it "compares rgb vectors" do
+      it "returns true for colors with the same key values" do
         expect(black == Color.new(0, 0, 0)).to be true
+      end
+
+      it "returns false if any key value is different" do
+        expect(black == Color.new(0, 0, 1)).to be false
+      end
+
+      it "returns false for objects with different classes" do
+        expect(black == "black").to be false
       end
     end
 
@@ -63,6 +71,55 @@ module Gauguin
       subject { black.to_s }
 
       it { expect(subject).to eq("rgb(0, 0, 0)") }
+    end
+
+    let(:color) { Color.new(1, 2, 3, 0.4, true) }
+
+    describe "#to_rgb" do
+      subject { color.to_rgb }
+
+      it { expect(subject).to eq([1, 2, 3]) }
+    end
+
+    describe "#to_key" do
+      subject { color.to_key }
+
+      it { expect(subject).to eq([1, 2, 3, true]) }
+    end
+
+    describe "#to_a" do
+      subject { color.to_a }
+
+      it { expect(subject).to eq([1, 2, 3, 0.4, true]) }
+    end
+
+    describe ".from_a" do
+      subject { Color.from_a([1, 2, 3, 0.4, true]) }
+
+      it { expect(subject.red).to eq(1) }
+      it { expect(subject.green).to eq(2) }
+      it { expect(subject.blue).to eq(3) }
+      it { expect(subject.percentage).to eq(0.4) }
+      it { expect(subject.transparent).to be true }
+    end
+
+    describe "#transparent?" do
+      subject { color.transparent? }
+
+      it { expect(subject).to be true }
+    end
+
+    describe "#hash" do
+      it "can be used as keys in the hash"  do
+        hash = { Color.new(255, 255, 255) => 777 }
+        expect(hash[Color.new(255, 255, 255)]).to eq(777)
+      end
+    end
+
+    describe "#inspect" do
+      subject { color.inspect }
+
+      it { expect(subject).to eq("rgb(1, 2, 3)[0.4][transparent]")}
     end
   end
 end

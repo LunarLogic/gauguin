@@ -11,12 +11,10 @@ module Gauguin
     end
 
     def ==(other)
-      self.to_key == other.to_key
+      self.class == other.class && self.to_key == other.to_key
     end
 
-    def eql?(other)
-      self.to_key.eql?(other.to_key)
-    end
+    alias eql? ==
 
     def hash
       self.to_key.hash
@@ -38,15 +36,24 @@ module Gauguin
     end
 
     def to_vector
-      ColorSpace::RgbVector[*to_a]
+      ColorSpace::RgbVector[*to_rgb]
     end
 
-    def to_a
+    def to_rgb
       [self.red, self.green, self.blue]
     end
 
+    def to_a
+      to_rgb + [self.percentage, self.transparent]
+    end
+
+    def self.from_a(array)
+      red, green, blue, percentage, transparent = array
+      Color.new(red, green, blue, percentage, transparent)
+    end
+
     def to_key
-      to_a + [self.transparent]
+      to_rgb + [self.transparent]
     end
 
     def to_s
