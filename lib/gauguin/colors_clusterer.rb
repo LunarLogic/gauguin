@@ -1,6 +1,6 @@
 module Gauguin
   class ColorsClusterer
-    def cluster(colors)
+    def call(colors)
       clusters = {}
       while !colors.empty?
         pivot = colors.shift
@@ -30,7 +30,7 @@ module Gauguin
     end
 
     def clusters(colors)
-      clusters = self.cluster(colors)
+      clusters = self.call(colors)
       clusters = clusters.sort_by { |color, _| color.percentage }.reverse
       Hash[clusters[0...Gauguin.configuration.max_colors_count]]
     end

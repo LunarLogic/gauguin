@@ -8,7 +8,7 @@ module Gauguin
     let(:clusterer) { ColorsClusterer.new }
 
     describe "cluster" do
-      subject { clusterer.cluster(colors) }
+      subject { clusterer.call(colors) }
 
       context "colors is empty" do
         let(:colors) { [] }
@@ -102,7 +102,7 @@ module Gauguin
       configure(:max_colors_count, 2)
 
       before do
-        expect(clusterer).to receive(:cluster).and_return({
+        expect(clusterer).to receive(:call).and_return({
           black => [black],
           red => [red],
           white => [white]

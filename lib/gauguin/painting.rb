@@ -14,9 +14,9 @@ module Gauguin
 
     def palette
       colors = @colors_retriever.colors
-      colors = @colors_limiter.limit(colors)
+      colors = @colors_limiter.call(colors)
       colors_clusters = @colors_clusterer.clusters(colors)
-      @noise_reducer.reduce(colors_clusters)
+      @noise_reducer.call(colors_clusters)
     end
 
     def recolor(palette, path)

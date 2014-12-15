@@ -9,7 +9,7 @@ module Gauguin
       let(:red) { Color.new(255, 0, 0, 0.02) }
       let(:black) { Color.new(0, 0, 0, 0.97) }
 
-      subject { limiter.limit(colors) }
+      subject { limiter.call(colors) }
 
       it "returns all colors" do
         expect(subject).to eq([black, red, white])

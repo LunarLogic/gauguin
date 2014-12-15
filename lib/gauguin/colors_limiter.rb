@@ -1,6 +1,6 @@
 module Gauguin
   class ColorsLimiter
-    def limit(colors)
+    def call(colors)
       colors_limit = Gauguin.configuration.colors_limit
 
       if colors.count > colors_limit

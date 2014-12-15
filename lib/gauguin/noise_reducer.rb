@@ -1,6 +1,6 @@
 module Gauguin
   class NoiseReducer
-    def reduce(colors_clusters)
+    def call(colors_clusters)
       pivots = colors_clusters.keys.sort_by! { |key, group| key.percentage }.reverse
 
       percentage_sum = 0

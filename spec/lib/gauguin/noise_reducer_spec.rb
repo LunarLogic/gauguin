@@ -5,7 +5,7 @@ module Gauguin
     let(:reducer) { NoiseReducer.new }
 
     describe "#reduce" do
-      subject { reducer.reduce(colors).keys }
+      subject { reducer.call(colors).keys }
 
       let(:white) { Color.new(255, 255, 255, 0.01) }
       let(:red) { Color.new(255, 0, 0, 0.02) }

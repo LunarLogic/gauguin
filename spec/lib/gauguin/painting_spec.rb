@@ -23,11 +23,11 @@ module Gauguin
       it "returns hash with main colors of the image" do
         expect(colors_retriever).to receive(:colors).
           and_return(colors)
-        expect(colors_limiter).to receive(:limit).with(colors).
+        expect(colors_limiter).to receive(:call).with(colors).
           and_return(colors)
         expect(colors_clusterer).to receive(:clusters).with(colors).
           and_return(clusters)
-        expect(noise_reducer).to receive(:reduce).with(colors).
+        expect(noise_reducer).to receive(:call).with(colors).
           and_return(colors)
 
         painting.palette
