@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Gauguin
   class PaletteSerializer
     def self.load(value)
