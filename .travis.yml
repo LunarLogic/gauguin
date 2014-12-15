@@ -1,4 +1,6 @@
 language: ruby
+script:
+  - bundle exec rake build
 rvm:
   - 2.1
 
