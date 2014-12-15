@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/LunarLogic/gauguin.svg?branch=master)](https://travis-ci.org/LunarLogic/gauguin)
+
 # Gauguin
 
 Retrieves palette of main colors, merging similar colors using [Lab color space](http://en.wikipedia.org/wiki/Lab_color_space).
