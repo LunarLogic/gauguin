@@ -16,6 +16,10 @@ It's common that images includes very similar colors, so when you want to get us
 
 This gem was created to do this for you.
 
+## Sample app
+
+Sample application available here: https://github.com/LunarLogic/to_be_like_gauguin
+
 ## Requirements
 
 Gem depends on `RMagick` which requires `ImageMagick` to be installed.
