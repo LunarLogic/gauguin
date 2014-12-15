@@ -77,10 +77,10 @@ Where keys are instances of `Gauguin::Color` class and values are array of insta
 
 There are `4` parameters that you can configure:
 
-- `max_colors_count` (default value is `10`) - maximum number of colors that palette will include
-- `cut_off_limit` (default value is `10000`) - limit for the first cut off - if image has too many colors it is not efficient to calculate grouping for all of them, so only `cut_off_limit` of colors of the largest percentage are used
-- `min_diff` (default value is `0.004`) - parameter used while calculating which colors should be ignored. Colors are sorted by percentage, then difference between percentages is calculated and only colors with difference greater than `min_diff` are taken to consideration
-- `similarity_threshold` (default value is `30`) - maximum distance in [Lab color space](http://en.wikipedia.org/wiki/Lab_color_space) to consider two colors as the same while grouping
+- `max_colors_count` (default value is `10`) - maximum number of colors that a palette will include
+- `colors_limit` (default value is `10000`) - maximum number of colors that will be considered while calculating a palette - if image has too many colors it is not efficient to calculate grouping for all of them, so only `colors_limit` of colors of the largest percentage are used
+- `min_percentage_sum` (default value is `0.981`) - parameter used while calculating which colors should be ignored. Colors are sorted by percentage in descending order, then colors which percentages sums to `min_percentage_sum` are taken into consideration
+- `color_similarity_threshold` (default value is `25`) - maximum distance in [Lab color space](http://en.wikipedia.org/wiki/Lab_color_space) to consider two colors as the same while grouping
 
 To configure any of above options you can use configuration block.
 For example changing `max_colors_count` would look like this:
