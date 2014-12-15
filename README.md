@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/LunarLogic/gauguin.svg?branch=master)](https://travis-ci.org/LunarLogic/gauguin)
+[![Code Climate](https://codeclimate.com/github/LunarLogic/gauguin/badges/gpa.svg)](https://codeclimate.com/github/LunarLogic/gauguin)
 
 # Gauguin
 
