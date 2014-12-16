@@ -7,9 +7,20 @@ module Gauguin
     attr_accessor :image
     delegate [:color_histogram, :columns, :rows, :write] => :image
 
-    def initialize(path)
+    def initialize(path = nil)
+      return unless path
+
       list = Magick::ImageList.new(path)
       self.image = list.first
+    end
+
+    def self.blank(columns, rows)
+      blank_image = Image.new
+      transparent_white = Magick::Pixel.new(255, 255, 255, Pixel::MAX_TRANSPARENCY)
+      blank_image.image = Magick::Image.new(columns, rows) do
+        self.background_color = transparent_white
+      end
+      blank_image
     end
 
     def pixel(magic_pixel)

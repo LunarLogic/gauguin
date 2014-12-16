@@ -5,12 +5,14 @@ module Gauguin
     end
 
     def recolor(new_colors)
-      rows = @image.rows
       columns = @image.columns
+      rows = @image.rows
 
-      (0...rows).each do |row|
-        (0...columns).each do |column|
-          image_pixel = @image.pixel_color(row, column)
+      new_image = Image.blank(columns, rows)
+
+      (0...columns).each do |column|
+        (0...rows).each do |row|
+          image_pixel = @image.pixel_color(column, row)
           next if image_pixel.transparent?
 
           color = Color.new(*image_pixel.to_rgb)
@@ -18,10 +20,10 @@ module Gauguin
 
           next unless new_color
 
-          @image.pixel_color(row, column, new_color.to_s)
+          new_image.pixel_color(column, row, new_color.to_s)
         end
       end
-      @image
+      new_image
     end
   end
 end

@@ -9,6 +9,42 @@ module Gauguin
     let(:image) { Image.new(path) }
     let(:magic_pixel) { double }
 
+    describe "initialize" do
+      context "path given" do
+        subject { Image.new(path) }
+
+        it "returns Image with magick image present" do
+          expect(subject.image).not_to be nil
+        end
+      end
+
+      context "empty constructor" do
+        subject { Image.new }
+
+        it "returns Image without magick image" do
+          expect(subject.image).to be nil
+        end
+      end
+    end
+
+    describe ".blank" do
+      let(:rows) { 10 }
+      let(:columns) { 20 }
+
+
+      it "returns blank image with transparent background" do
+        blank_image = Image.blank(rows, columns)
+
+        pixels = columns.times.map do |column|
+          rows.times.map do |row|
+            blank_image.pixel_color(column, row)
+          end
+        end.flatten
+
+        expect(pixels.all? { |p| p.transparent? }).to be true
+      end
+    end
+
     describe "#pixel" do
       it "returns new Image::Pixel" do
         expect(Image::Pixel).to receive(:new)

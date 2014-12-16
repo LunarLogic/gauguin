@@ -46,6 +46,10 @@ module Gauguin
 
       subject { image_recolorer.recolor(new_colors) }
 
+      before do
+        allow(Image).to receive(:blank).and_return(image)
+      end
+
       it "recolors image based on new_colors" do
         expect(subject.pixels).to eq([
           [white_pixel, black_pixel, black_pixel],
