@@ -1,4 +1,6 @@
 language: ruby
+script:
+  - CODECLIMATE_REPO_TOKEN=edbf400c9cd2e92ef8eabf2dad1d03b0ed0cb2a83a20f12f70e4f8107c38de51 bundle exec rake
 rvm:
   - 2.1
 notifications:
