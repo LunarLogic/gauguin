@@ -54,8 +54,10 @@ Or install it yourself as:
 
 ## Usage
 
+#### Palette
+
 ```ruby
-Gauguin::Painting.new("path/to/image.png").palette
+palette = Gauguin::Painting.new("path/to/image.png").palette
 ```
 
 Result for image above would be:
@@ -80,6 +82,14 @@ Result for image above would be:
 ```
 
 Where keys are instances of `Gauguin::Color` class and values are array of instances of `Gauguin::Color` class.
+
+#### Recolor
+
+There is also recolor feature - you can pass original image and the calculated palette and return new image, colored only with the main colours from the palette.
+
+```ruby
+painting.recolor(palette, 'path/where/recolored/file/will/be/placed')
+```
 
 ## Custom configuration
 
