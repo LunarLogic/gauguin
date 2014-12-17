@@ -2,6 +2,7 @@
 [![Code Climate](https://codeclimate.com/github/LunarLogic/gauguin/badges/gpa.svg)](https://codeclimate.com/github/LunarLogic/gauguin)
 [![Test Coverage](https://codeclimate.com/github/LunarLogic/gauguin/badges/coverage.svg)](https://codeclimate.com/github/LunarLogic/gauguin)
 
+<img src="http://gauguin.lunarlogic.io/assets/gauguin-b7a7737e8ede819b98df9d05f7df020a.png" alt="Guard Icon" align="left" />
 # Gauguin
 
 Retrieves palette of main colors, merging similar colors using [Lab color space](http://en.wikipedia.org/wiki/Lab_color_space).
