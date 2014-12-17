@@ -64,6 +64,21 @@ module Gauguin
             Color.new(255, 0, 0, 0.5)
           ])
         end
+
+        context "fully transparent colors" do
+          let(:magic_red_little_transparent_pixel) do
+            magic_pixel([255, 0, 0], Image::Pixel::MAX_TRANSPARENCY)
+          end
+
+          it "should be treated separately" do
+            expect(subject).to eq([
+              Color.new(255, 0, 0, 0.1),
+              Color.new(255, 255, 255, 0.2),
+              Color.new(0, 0, 0, 0.3),
+              Color.new(255, 0, 0, 0.4, true)
+            ])
+          end
+        end
       end
     end
   end

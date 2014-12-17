@@ -45,7 +45,7 @@ class FakeImage
     pixels[row][column]
   end
 
-  class Pixel
+  class Pixel < Gauguin::Image::Pixel
     attr_accessor :magic_pixel
 
     def initialize(magic_pixel)
@@ -54,10 +54,6 @@ class FakeImage
 
     def to_rgb
       magic_pixel.rgb
-    end
-
-    def transparent?
-      false
     end
   end
 end

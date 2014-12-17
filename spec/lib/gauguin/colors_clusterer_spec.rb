@@ -7,7 +7,7 @@ module Gauguin
 
     let(:clusterer) { ColorsClusterer.new }
 
-    describe "cluster" do
+    describe "call" do
       subject { clusterer.call(colors) }
 
       context "colors is empty" do
@@ -32,6 +32,24 @@ module Gauguin
             black => [black, pseudo_black, other_pseudo_black,
                       another_pseudo_black]
           })
+        end
+
+        context do
+          let(:white) { Color.new(255, 255, 255, 0.3) }
+          let(:transparent_white) do
+            Color.new(255, 255, 255, 0.1, Image::Pixel::MAX_TRANSPARENCY)
+          end
+
+          it "make separate groups for fully transparent colors" do
+            colors << transparent_white
+
+            expect(subject).to eq({
+              white => [white],
+              transparent_white => [transparent_white],
+              black => [black, pseudo_black, other_pseudo_black,
+                        another_pseudo_black]
+            })
+          end
         end
 
         it "updates percentage of leader of each group" do
