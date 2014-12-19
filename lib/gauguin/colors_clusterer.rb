@@ -2,29 +2,17 @@ module Gauguin
   class ColorsClusterer
     def call(colors)
       clusters = {}
+
       while !colors.empty?
         pivot = colors.shift
         group = [pivot]
 
-        while true
-          similar_colors = colors.select { |c| c.similar?(pivot) }
-          break if similar_colors.empty?
-
-          group += similar_colors
-          colors -= similar_colors
-
-          pivot = group.sort_by(&:percentage).last
-        end
+        colors, pivot, group = find_all_similar(colors, pivot, group)
 
         clusters[pivot] = group
       end
 
-      clusters.each do |main_color, group|
-        percentage = group.inject(0) do |sum, color|
-          sum += color.percentage
-        end
-        main_color.percentage = percentage
-      end
+      update_pivots_percentages(clusters)
 
       clusters
     end
@@ -45,6 +33,31 @@ module Gauguin
       end
 
       reversed_clusters
+    end
+
+    private
+
+    def find_all_similar(colors, pivot, group)
+      loop do
+        similar_colors = colors.select { |c| c.similar?(pivot) }
+        break if similar_colors.empty?
+
+        group += similar_colors
+        colors -= similar_colors
+
+        pivot = group.sort_by(&:percentage).last
+      end
+
+      [colors, pivot, group]
+    end
+
+    def update_pivots_percentages(clusters)
+      clusters.each do |main_color, group|
+        percentage = group.inject(0) do |sum, color|
+          sum += color.percentage
+        end
+        main_color.percentage = percentage
+      end
     end
   end
 end
