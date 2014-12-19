@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ania Slimak"]
   spec.email         = ["anna.slimak@lunarlogic.io"]
   spec.summary       = %q{Tool for retrieving main colors from the image.}
-  spec.description   = %q{Retrieves palette of main colors, merging similar colors using YUV space.}
-  spec.homepage      = ""
+  spec.description   = %q{Retrieves palette of main colors, merging similar colors using Lab color space.}
+  spec.homepage      = "https://github.com/LunarLogic/gauguin"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -26,6 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "codeclimate-test-reporter"
   spec.add_development_dependency "guard-rspec"
-
-  spec.add_runtime_dependency "pry"
+  spec.add_development_dependency "pry"
 end
