@@ -23,7 +23,7 @@ This gem was created to do this for you.
 
 ## Sample app
 
-Sample application available here: https://github.com/LunarLogic/to_be_like_gauguin
+Sample application available here: http://gauguin.lunarlogic.io
 
 ## Requirements
 
