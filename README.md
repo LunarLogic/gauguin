@@ -11,7 +11,7 @@ Retrieves palette of main colors, merging similar colors using [Lab color space]
 
 How many colors do you recognize on the image below?
 
-![Black and white image](spec/support/pictures/gray_and_black.png)
+![Black and white image](http://gauguin.lunarlogic.io/assets/gray_and_black-b6871d86ef45c8740bf898233b0a588c.png)
 
 Many people would say `2`, but actually there are `1942`.
 
