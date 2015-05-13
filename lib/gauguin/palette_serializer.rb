@@ -9,7 +9,7 @@ module Gauguin
       value = value.to_a.map do |color_key, group|
         [Gauguin::Color.from_a(color_key), group]
       end
-      value = Hash[value]
+      Hash[value]
     end
 
     def self.dump(value)
