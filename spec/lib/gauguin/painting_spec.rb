@@ -27,7 +27,7 @@ module Gauguin
           and_return(colors)
         expect(colors_clusterer).to receive(:clusters).with(colors).
           and_return(clusters)
-        expect(noise_reducer).to receive(:call).with(colors).
+        expect(noise_reducer).to receive(:call).with(clusters).
           and_return(colors)
 
         painting.palette
